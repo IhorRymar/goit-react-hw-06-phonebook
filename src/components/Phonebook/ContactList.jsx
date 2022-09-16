@@ -2,26 +2,32 @@ import css from '../Phonebook/ContactsStyle.module.css';
 import ContactsListItem from './ContactsListItem';
 import PropTypes from 'prop-types';
 
-const ContactList = ({ contacts, removeContact }) => (
-  <>
-    <ul className={css.list}>
-      {contacts.map(({ name, number, id }) => (
-        <ContactsListItem key={id}>
-          {name}: <span className={css.item}>{number}</span>
-          <button
-            type="button"
-            className={css.btn}
-            onClick={() => {
-              removeContact(id);
-            }}
-          >
-            Delete
-          </button>
-        </ContactsListItem>
-      ))}
-    </ul>
-  </>
-);
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilteredContacts } from 'components/redux/contacts/contacts-selectors';
+import { removeContact } from 'components/redux/contacts/contacts-slice';
+
+const ContactList = () => {
+  const contacts = useSelector(getFilteredContacts);
+  const dispatch = useDispatch();
+  return (
+    <>
+      <ul className={css.list}>
+        {contacts.map(({ name, number, id }) => (
+          <ContactsListItem key={id}>
+            {name}: <span className={css.item}>{number}</span>
+            <button
+              type="button"
+              className={css.btn}
+              onClick={() => dispatch(removeContact(id))}
+            >
+              Delete
+            </button>
+          </ContactsListItem>
+        ))}
+      </ul>
+    </>
+  );
+};
 
 export default ContactList;
 
@@ -33,5 +39,5 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
-  removeContact: PropTypes.func.isRequired,
+  // removeContact: PropTypes.func.isRequired,
 };
