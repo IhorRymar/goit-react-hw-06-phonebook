@@ -7,46 +7,19 @@ import { nanoid } from '@reduxjs/toolkit';
 import css from '../Phonebook/ContactsStyle.module.css';
 
 const ContactForm = () => {
-  const dispatch = useDispatch();
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
   const contacts = useSelector(getFilteredContacts);
-  // const initialState = {
-  //   name: '',
-  //   number: '',
-  // };
+
+  const dispatch = useDispatch();
 
   const onSubmit = data => {
     if (contacts.find(contact => contact.name === data.name)) {
-      return alert(`Contact of ${data.name} is already exist`);
+      return alert(`Contact of ${data.name} is already exist!`);
     }
     dispatch(addContact(data));
   };
-
-  //   const [state, setState] = useState({ ...initialState });
-  //   const id = nanoid();
-  //   const handleChange = evt => {
-  //       const { value } = evt.currentTarget;
-  //       evt.currentTarget.name === 'name' ? setName(value) : setNumber(value);
-  //   // const handleChange = ({ target }) => {
-  //   //   const { name, value } = target;
-
-  //     setState(prevState => ({
-  //       ...prevState,
-  //       id: id,
-  //       [name]: value,
-  //     }));
-  //   };
-
-  //   const handleSubmit = e => {
-  //     e.preventDefault();
-  //     onSubmit({ ...state });
-  //     setState({ ...initialState });
-  //   };
-
-  //   return { state, setState, handleChange, handleSubmit };
-  // };
-
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
 
   const handleChange = evt => {
     const { value } = evt.currentTarget;
